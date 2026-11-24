@@ -303,8 +303,17 @@ function nav(actif) {
   return lien('home', '#/', '🎁', 'Personnes') + lien('acheter', '#/acheter', '🛒', `À acheter${n ? ` <b>${n}</b>` : ''}`) + lien('reglages', '#/reglages', '⚙️', 'Réglages');
 }
 
+// Un lien de liste ouvert directement (liste.html > « Ajouter à mon app », ou l'app Android ouverte par un lien) : #/lien/<données> → aperçu de l'import.
+function ouvrirLien(frag) {
+  const liste = Core.decoderListe(frag);
+  if (!liste) { toast("Ce lien de liste n'est pas valide."); location.replace('#/'); return; }
+  importe = { liste, existant: liste.id ? D.personnes.find(p => p.partage && p.partage.id === liste.id) : null };
+  location.replace('#/importer');
+}
+
 function render() {
   const [a, id, sub, sid] = (location.hash || '#/').slice(2).split('/').map(decodeURIComponent);
+  if (a === 'lien') return ouvrirLien(id);
   const p = a === 'p' ? personne(id) : null;
   if (a === 'p' && !p) { location.replace('#/'); return; }
   const moiP = D.personnes.find(x => x.moi), seule = !D.personnes.some(x => !x.moi);
