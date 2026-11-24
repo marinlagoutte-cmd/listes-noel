@@ -1,0 +1,178 @@
+/* Listes de Noël : thème « Houx et baies » (rouge baie, vert sapin, crème, or). Clair et sombre suivent le téléphone.
+   Contrastes calculés (WCAG) : tout texte ≥ 4,5. Le décor (or, neige, rubans) n'est jamais du texte. Aucun attribut style="" dans le HTML (voir la CSP de index.html). */
+:root {
+  color-scheme: light dark;
+  --bg: #fbf5ea; --carte: #fff; --txt: #2b1a17; --doux: #6b5a54; --bord: #eadfcb;
+  --acc: #b3202f; --sur-acc: #fff; --acc2: #1f5a3d; --or: #d9a441; --hero: #9e1b2a;
+  --alerte: #fff1d6; --alerte-txt: #6e4300;
+  --c-idee: #5b6b7a; --c-choisi: #8a5a00; --c-achete: #0f6a7a; --c-emballe: #7a3e9d; --c-offert: #1f7a45;
+  --titre: Fraunces, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Noto Serif", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1311; --carte: #261b18; --txt: #f5eadb; --doux: #c4afa2; --bord: #3a2b26;
+    --acc: #f0707b; --sur-acc: #1a1311; --acc2: #7cc79a; --hero: #7e1523;
+    --alerte: #3d2f10; --alerte-txt: #f2cf8a;
+    --c-idee: #a9b6c4; --c-choisi: #f0b654; --c-achete: #5cc8d8; --c-emballe: #c79bea; --c-offert: #6fd19a;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--txt); font: 17px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 640px; margin: 0 auto; padding: 16px 16px 120px; }
+h1, h2, .compte b { font-family: var(--titre); }
+h1 { font-size: 30px; line-height: 1.15; margin: 8px 0 4px; }
+h2 { font-size: 21px; margin: 24px 0 6px; }
+a { color: var(--acc); }
+.sous, .aide, small, .m { color: var(--doux); }
+.sous { margin: 0 0 12px; }
+.aide { font-size: 15px; margin: 6px 0; }
+.vide { text-align: center; color: var(--doux); padding: 28px 8px; }
+.alerte { background: var(--alerte); color: var(--alerte-txt); border-radius: 14px; padding: 10px 14px; font-weight: 600; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ----- en-tête de fête : papier cadeau, neige, guirlande, compte à rebours ----- */
+.hero { position: relative; overflow: hidden; color: #fff; margin: -16px -16px 16px; padding: calc(14px + env(safe-area-inset-top)) 20px 18px; border-radius: 0 0 28px 28px;
+  background: radial-gradient(circle at 25% 25%, #fff3 0 3px, #0000 3.5px) 0 0 / 28px 28px, radial-gradient(circle at 75% 75%, #fff2 0 2px, #0000 2.5px) 0 0 / 28px 28px, var(--hero); }
+.hero > * { position: relative; }
+.hero .surtitre { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; opacity: .95; }
+.hero h1 { color: #fff; margin: 4px 0 2px; }
+.hero p { margin: 4px 0; }
+.hero .compte { display: flex; align-items: baseline; gap: 10px; }
+.hero .compte b { font-size: 56px; line-height: 1; }
+.hero .compte span { font-size: 18px; }
+.hero .ruban { position: absolute; top: 0; bottom: 0; right: 30px; width: 22px; background: linear-gradient(90deg, #c58f2a, var(--or), #c58f2a); opacity: .95; }
+.hero .noeud { position: absolute; top: 4px; right: 18px; width: 46px; color: var(--or); }
+.guirlande { display: block; width: 100%; height: 30px; margin: 6px 0 0; color: #fff; }
+.guirlande path { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.amp circle { animation: scint 2.4s ease-in-out infinite; }
+.amp circle:nth-child(2n) { animation-delay: -1.2s; }
+@keyframes scint { 50% { opacity: .45; } }
+.neige { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.neige i { position: absolute; top: -8px; left: calc(var(--x) * 1%); width: var(--s); height: var(--s); border-radius: 50%; background: #fff; opacity: .85; animation: chute var(--d) linear var(--w) infinite; }
+@keyframes chute { to { transform: translate(var(--dx), 260px); } }
+.avent { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; margin-top: 12px; padding-right: 60px; }
+.avent b { aspect-ratio: 1; display: grid; place-items: center; border-radius: 7px; background: #fff3; font: 600 11px/1 system-ui, sans-serif; }
+.avent b.passe { background: none; border: 1.5px dashed #fff9; opacity: .8; }
+.avent b.auj { outline: 2.5px solid var(--or); background: #fff4; animation: scint 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .amp circle, .avent b.auj { animation: none; } .neige i { animation: none; top: calc(var(--x) * 1.2px); } }
+
+/* ----- navigation ----- */
+nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: var(--carte); border-top: 1px solid var(--bord); padding-bottom: env(safe-area-inset-bottom); }
+nav a { flex: 1; min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; color: var(--doux); text-decoration: none; font-weight: 600; font-size: 14px; line-height: 1.2; }
+nav a span { font-size: 22px; line-height: 1.1; }
+nav a.on { color: var(--acc); }
+nav b { background: var(--acc); color: var(--sur-acc); border-radius: 99px; font-size: 12px; padding: 0 7px; margin-left: 4px; }
+@media (pointer: coarse) { body.clavier nav { display: none; } }   /* clavier ouvert : la barre d'onglets se collerait au-dessus et cacherait les boutons */
+body.proche nav { display: none; }
+body.proche main { padding-bottom: 40px; }
+
+/* ----- boutons ----- */
+.btn { display: block; width: 100%; min-height: 54px; margin: 10px 0; padding: 14px; border: 2px solid transparent; border-radius: 16px; background: var(--acc); color: var(--sur-acc); font: inherit; font-weight: 700; font-size: 17px; line-height: 1.2; text-align: center; text-decoration: none; cursor: pointer; }
+.btn.plat { background: transparent; border-color: var(--bord); color: var(--txt); }
+.btn.vert { background: var(--acc2); color: #fff; }
+@media (prefers-color-scheme: dark) { .btn.vert { color: #14201a; } }
+.btn.danger { background: transparent; border-color: var(--bord); color: var(--acc); }
+.btn.arme { background: var(--acc); border-color: var(--acc); color: var(--sur-acc); }
+.btn.petit { width: auto; min-height: 48px; margin: 0; padding: 10px 18px; flex: none; }
+
+/* ----- cartes ----- */
+.carte { background: var(--carte); border: 1px solid var(--bord); border-radius: 18px; padding: 14px 16px; margin: 12px 0; }
+.carte.due { border-color: var(--c-choisi); border-width: 2px; }
+.carte a.lien { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 12px; }
+.carte a.lien > div { flex: 1; min-width: 0; }
+.nom { font-family: var(--titre); font-size: 21px; font-weight: 700; overflow-wrap: anywhere; }
+.ligne { color: var(--doux); font-size: 15px; margin-top: 4px; }
+.carte .btn { margin: 10px 0 0; }
+.chip { display: inline-block; font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 99px; color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); }
+.st-a_demander, .s-idee { --c: var(--c-idee); } .st-demandee, .s-choisi { --c: var(--c-choisi); } .s-achete { --c: var(--c-achete); }
+.s-emballe { --c: var(--c-emballe); } .st-recue, .s-offert { --c: var(--c-offert); }
+
+.avatar { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 22px/1 var(--titre); background: var(--av, #b3202f); }
+.av0 { --av: #b3202f; } .av1 { --av: #1f5a3d; } .av2 { --av: #8a5a00; } .av3 { --av: #0f6a7a; } .av4 { --av: #7a3e9d; } .av5 { --av: #2b4ba8; }
+.avatar.grand { width: 64px; height: 64px; font-size: 30px; }
+.ring { flex: none; width: 46px; height: 46px; }
+.ring circle { fill: none; stroke-width: 5; }
+.ring .ring-fond { stroke: var(--bord); } .ring .ring-val { stroke: var(--acc2); stroke-linecap: round; }
+.ring text { fill: var(--txt); font: 700 11px system-ui, sans-serif; }
+.entete-personne { display: flex; align-items: center; gap: 14px; }
+.entete-personne h1 { margin: 0; }
+
+/* ----- budget et progression ----- */
+.bilan { display: flex; gap: 8px; margin: 12px 0 6px; }
+.bilan div { flex: 1; background: var(--carte); border: 1px solid var(--bord); border-radius: 16px; padding: 10px 6px; text-align: center; }
+.bilan span { display: block; font-size: 13px; color: var(--doux); }
+.bilan b { font-size: 19px; }
+.bilan .neg b { color: var(--acc); }
+.barre { height: 12px; border-radius: 9px; background: var(--bord); overflow: hidden; margin: 6px 0 4px; }
+.barre > b { display: block; height: 100%; width: 0; border-radius: inherit; background: repeating-linear-gradient(45deg, var(--acc) 0 8px, #fffd 8px 16px); background-size: 22.63px 22.63px; animation: defile 1.2s linear infinite; }
+@keyframes defile { to { background-position: 22.63px 0; } }
+@media (prefers-reduced-motion: reduce) { .barre > b { animation: none; } }
+.legende { font-size: 14px; color: var(--doux); margin: 0 0 8px; }
+
+/* ----- idées ----- */
+.idee { display: grid; grid-template-columns: 34px 1fr; column-gap: 12px; border-left: 6px solid var(--c); position: relative; overflow: hidden; }
+.idee > .corps-idee { min-width: 0; }
+.idee .t { font-weight: 700; font-size: 18px; overflow-wrap: anywhere; }
+.idee .m { font-size: 15px; margin-top: 2px; }
+.idee .actions, .achat { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.idee .actions { margin-top: 10px; grid-column: 1 / -1; }
+.idee .actions .btn { flex: 1; }
+.fav { color: #b7791f; } @media (prefers-color-scheme: dark) { .fav { color: var(--or); } }
+.cad { width: 32px; height: 32px; color: var(--c); margin-top: 2px; }
+.cad .corps, .cad .couv, .cad .rub { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.cad .etoile { fill: var(--or); stroke: none; display: none; }
+.cad[data-s=idee] .corps, .cad[data-s=idee] .couv { stroke-dasharray: 3 2; } .cad[data-s=idee] .rub { display: none; }
+.cad[data-s=choisi] .rub { display: none; }
+.cad[data-s=achete] .corps { fill: currentColor; fill-opacity: .25; } .cad[data-s=achete] .rub { display: none; }
+.cad[data-s=emballe] .corps { fill: currentColor; fill-opacity: .25; }
+.cad[data-s=offert] .corps { fill: currentColor; fill-opacity: .25; } .cad[data-s=offert] .couv { transform: translate(2px, -3px) rotate(8deg); transform-origin: 12px 9px; } .cad[data-s=offert] .rub { display: none; } .cad[data-s=offert] .etoile { display: block; }
+.idee.s-offert::after { content: ""; position: absolute; top: 0; bottom: 0; right: 14px; width: 12px; background: var(--acc); opacity: .25; }
+.achat { padding: 10px 0; border-top: 1px solid var(--bord); }
+.achat:first-of-type { border-top: 0; }
+.carte h2 { margin: 0 0 4px; display: flex; justify-content: space-between; gap: 8px; }
+.retour { display: inline-block; padding: 10px 0; text-decoration: none; font-weight: 700; }
+.occ { font-weight: 600; } .occ.oui { color: var(--c-offert); } .occ.non { color: var(--c-choisi); }
+.magasin { font-weight: 600; }
+
+.basculer { display: flex; gap: 8px; margin: 10px 0; }
+.basculer button { flex: 1; min-height: 48px; border: 2px solid var(--bord); border-radius: 14px; background: transparent; color: var(--txt); font: inherit; font-weight: 700; cursor: pointer; }
+.basculer button.on { background: var(--acc2); border-color: var(--acc2); color: #fff; }
+@media (prefers-color-scheme: dark) { .basculer button.on { color: #14201a; } }
+
+.apropos { border-left: 6px solid var(--acc2); }
+.apropos dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 0; } .apropos dt { font-size: 13px; font-weight: 700; color: var(--doux); text-transform: uppercase; letter-spacing: .04em; padding-top: 3px; } .apropos dd { margin: 0; overflow-wrap: anywhere; }
+.surprends { display: inline-block; background: color-mix(in srgb, var(--or) 30%, transparent); border-radius: 99px; padding: 2px 12px; font-weight: 700; }
+details.apropos-form { margin: 14px 0 0; } details.apropos-form summary { cursor: pointer; font-weight: 700; padding: 10px 0; }
+
+/* ----- formulaires ----- */
+label { display: block; margin: 14px 0 0; font-weight: 600; font-size: 15px; }
+input, select, textarea { display: block; width: 100%; margin-top: 4px; padding: 12px; min-height: 48px; border: 1px solid var(--bord); border-radius: 14px; background: var(--carte); color: var(--txt); font: inherit; font-size: 17px; }
+input:focus, select:focus, textarea:focus { outline: 3px solid color-mix(in srgb, var(--acc) 45%, transparent); outline-offset: 1px; }
+textarea { resize: vertical; }
+fieldset { border: 0; padding: 0; margin: 14px 0 0; display: flex; gap: 10px; }
+fieldset label { flex: 1; margin: 0; display: flex; align-items: center; gap: 10px; border: 1px solid var(--bord); border-radius: 14px; padding: 12px; background: var(--carte); }
+fieldset input { width: 22px; min-height: 22px; margin: 0; }
+.coche { display: flex; align-items: center; gap: 10px; } .coche input { width: 24px; min-height: 24px; margin: 0; accent-color: var(--acc); }
+.rang { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; padding: 10px; background: var(--carte); border: 1px solid var(--bord); border-radius: 16px; }
+.rang > label { margin: 8px 0 0; } .rang > label input { width: 26px; min-height: 26px; margin: 0; accent-color: var(--acc); }
+.rang .champs { flex: 1; min-width: 0; } .rang .champs input + input { margin-top: 6px; }
+.rang .url { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+.rang.ignore { opacity: .75; padding: 4px 10px; } .rang.ignore .champs input { min-height: 40px; }
+
+#toast { position: fixed; left: 16px; right: 16px; bottom: 90px; max-width: 520px; margin: 0 auto; padding: 12px 16px; border-radius: 14px; background: var(--txt); color: var(--bg); font-weight: 600; text-align: center; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+#toast.on { opacity: 1; }
+#feuille { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; background: rgba(0, 0, 0, .5); }
+#feuille .carte { width: 100%; max-width: 640px; margin: 0 auto; border-radius: 22px 22px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
+
+.proprio { border-left: 6px solid var(--c-idee); background: var(--carte); border-radius: 14px; padding: 10px 14px; margin: 12px 0; font-size: 15px; }
+.proprio.moi { border-left-color: var(--acc); }
+.carte.moi { border-color: var(--acc); }
+.chip.moi { --c: var(--acc); }
+a.carte.choix { display: block; color: inherit; text-decoration: none; } a.carte.choix b { font-family: var(--titre); font-size: 19px; }
+.rapide textarea { min-height: 96px; }
+.mot { font-family: var(--titre); font-size: 22px; line-height: 1.3; }
+
+[hidden] { display: none !important; }
+nav a i { font-style: normal; }
+.envoi { position: sticky; bottom: calc(74px + env(safe-area-inset-bottom)); z-index: 5; box-shadow: 0 6px 18px #0005; }   /* au-dessus de la barre d'onglets */
+body.proche .envoi { bottom: calc(12px + env(safe-area-inset-bottom)); }
