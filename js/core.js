@@ -249,6 +249,7 @@ const Core = (() => {
     if (!/^https?:$/.test(u.protocol) || h === 'localhost' || h.endsWith('.localhost') || h.endsWith('.local') || !h.includes('.') || /^\d+\.\d+\.\d+\.\d+$/.test(h)) return '';
     return u.origin + u.pathname.replace(/[^/]*$/, '');
   }
+  const SITE_PUBLIE = 'https://marinlagoutte-cmd.github.io/listes-noel/';   // copie publique de web/ (GitHub Pages) : utilisée tant que Réglages > Adresse du site est vide
   const exporter = d => JSON.stringify(d, null, 1);
   function importer(texte) {
     let d;
@@ -308,6 +309,6 @@ const Core = (() => {
 
   return { STATUTS, STATUTS_PERSONNE, LIBELLES, MODELE, RELANCE, aujourdhui, iso, joursEntre, ajouterJours, dateFr, dateCourte,
     joursAvantNoel, nombre, eur, decouper, cout, bilan, bilanTotal, suivant, aAcheter, dernierContact, joursSansReponse,
-    relances, message, nouvelId, profilVide, profilNet, profilRempli, profilDepuis, magasinDe, magasinIdee, aAcheterParMagasin, texteCourses, compteurs, normaliser, siteDepuisPage, exporter, importer, lien, libOcc, texteListe, lienListe, decoderListe, fusionner, lienDemande, decoderDemande, groupes };
+    relances, message, nouvelId, profilVide, profilNet, profilRempli, profilDepuis, magasinDe, magasinIdee, aAcheterParMagasin, texteCourses, compteurs, normaliser, siteDepuisPage, SITE_PUBLIE, exporter, importer, lien, libOcc, texteListe, lienListe, decoderListe, fusionner, lienDemande, decoderDemande, groupes };
 })();
 if (typeof module !== 'undefined') module.exports = Core;

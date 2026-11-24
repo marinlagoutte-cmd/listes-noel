@@ -15,7 +15,7 @@ function charger() {
     try { localStorage.setItem(CLE + '.illisible', brut); } catch (e2) { /* tant pis */ }   // on garde l'original avant de l'écraser
     D = Core.normaliser(null);
   }
-  if (!D.site) D.site = Core.siteDepuisPage(location.href);          // page publiée : les listes renvoyées par un proche pointent vers ce même site
+  if (!D.site) D.site = Core.siteDepuisPage(location.href) || Core.SITE_PUBLIE;          // page publiée : les listes renvoyées par un proche pointent vers ce même site
 }
 function sauver() {
   D.groupes = Core.groupes(D);                                       // un groupe créé par une personne ou à la main reste enregistré
